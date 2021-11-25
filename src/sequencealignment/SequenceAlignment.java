@@ -27,8 +27,8 @@ public class SequenceAlignment {
         //LOOK IM DOING A DYNAMIC PROGRAMING THING!
         m = one.length();
         n = two.length();
-        a = new int[m][n];
-        arrows = new char[m][n];
+        a = new int[m+1][n+1];
+        arrows = new char[m+1][n+1];
     }
 
     public void computeAlignment(int gencost){
@@ -42,9 +42,9 @@ public class SequenceAlignment {
             setArrow(2, 0, j);
         }
         int[] arr = {0,0,0};//array to store the 3 options and pick the minimum
-        for(int j = 0; j<n;j++){
-            for(int i = 0; i<m; i++){
-                arr[0] = alpha(one.charAt(i), two.charAt(j)) + a[i-1][j-1];
+        for(int j = 1; j<=n;j++){
+            for(int i = 1; i<=m; i++){
+                arr[0] = alpha(one.charAt(i-1), two.charAt(j-1)) + a[i-1][j-1];
                 arr[1] = gencost + a[i-1][j];
                 arr[2] = gencost + a[i][j-1];
                 min = 0;
@@ -97,23 +97,23 @@ public class SequenceAlignment {
     }
 
     public void buildAlign(int i, int j, StringBuilder str1, StringBuilder str2){
-        if(i<0 || j< 0){
+        if(i<=0 || j<= 0){
             return;
         }
         switch(this.arrows[i][j]){
             case 'D':
-                str1.insert(0, one.charAt(i));
-                str2.insert(0, two.charAt(j));
+                str1.insert(0, one.charAt(i-1));
+                str2.insert(0, two.charAt(j-1));
                 buildAlign(i-1, j-1, str1, str2);
                 break;
             case 'U':
-                str1.insert(0, one.charAt(i));
+                str1.insert(0, one.charAt(i-1));
                 str2.insert(0, '-');
                 buildAlign(i-1, j, str1, str2);
                 break;
             case 'R':
                 str1.insert(0, '-');
-                str2.insert(0, two.charAt(j));
+                str2.insert(0, two.charAt(j-1));
                 buildAlign(i, j-1, str1, str2);
                 break;
         }
