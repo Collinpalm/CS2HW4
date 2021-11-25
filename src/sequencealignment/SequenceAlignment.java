@@ -90,7 +90,10 @@ public class SequenceAlignment {
     }
 
     public String getAlignment(){
-        return one;
+        StringBuilder str1 = new StringBuilder();
+        StringBuilder str2 = new StringBuilder();
+        buildAlign(m, n, str1, str2);
+        return str1+" "+str2;
     }
 
     public void buildAlign(int i, int j, StringBuilder str1, StringBuilder str2){
